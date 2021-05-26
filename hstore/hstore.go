@@ -48,7 +48,7 @@ func (h *Hstore) Scan(value interface{}) error {
 	didQuote := false
 	sawSlash := false
 	bindex := 0
-	for bindex, b = range value.([]byte) {
+	for bindex, b = range []byte(value.(string)) {
 		if sawSlash {
 			pair[pi] = append(pair[pi], b)
 			sawSlash = false
@@ -114,5 +114,5 @@ func (h Hstore) Value() (driver.Value, error) {
 		thispart := hQuote(key) + "=>" + hQuote(val)
 		parts = append(parts, thispart)
 	}
-	return []byte(strings.Join(parts, ",")), nil
+	return strings.Join(parts, ","), nil
 }
